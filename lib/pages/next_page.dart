@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:typed_data';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_extract/utils/image_util.dart';
 
 
 class NextPage extends StatefulWidget {
@@ -15,17 +16,6 @@ class NextPage extends StatefulWidget {
 class _NextPageState extends State<NextPage> {
   // This is the file that will be used to store the image
   Uint8List? _image;
-  final _picker = ImagePicker();
-
-  Future<Uint8List?> galleryImagePicker() async {
-    XFile? file = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
-    );
-
-    if (file != null) return await file.readAsBytes(); // convert into Uint8List.
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +34,9 @@ class _NextPageState extends State<NextPage> {
                     final Uint8List? image = await galleryImagePicker();
 
                     if (image != null) {
-                     _image = image;
-                    setState(() {});
+                      _image = image;
+                      setState(() {});
+
                     }
                   },
                   child: const Text('Select An Image'),
